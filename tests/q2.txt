@@ -1,0 +1,12 @@
+5
+S->a_N_tells_a_N_O
+N->boy
+N->girl
+O->a_story
+O->that_S
+a_boy_tells_a_girl_a_story
+a_boy_tells_a_girl_that_a_boy_tells_a_girl_a_story
+a_girl_tells_a_boy_a_story
+a_girl_tells_a_boy_that_a_boy_tells_a_girl_that_a_girl_tells_a_boy_a_story
+a_story_tells_a_boy_a_story
+a_boy_tells_a_tells_a_boy_a_story
