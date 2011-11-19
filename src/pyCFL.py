@@ -3,18 +3,21 @@ import sys, re
 
 class PDA:
     def __init__(self, string, current_stack):
-        self.string = string
+        if string == '!':
+            self.string = ""
+        else:
+            self.string = string
         self.current_stack = current_stack
         
     def RunRule(self, rules):
         variable_regex = re.compile("[A-Z]")
-        print "Staring runrule"
-        print self.string
-        print self.current_stack
+        #print "Staring runrule"
+        #print self.string
+        #print self.current_stack
         if len(self.current_stack) == 0:
             return None
         if variable_regex.search(self.current_stack[0]):
-            print "Found variable: %s" % self.current_stack[0]
+            #print "Found variable: %s" % self.current_stack[0]
             pda_instances = []
             for rule in rules[self.current_stack[0]]:
                 # Copy a new working set
@@ -25,8 +28,8 @@ class PDA:
                 if rule != ['!']:
                     tmp_set = rule + tmp_set
                 
-                print rule
-                print "Creating new PDA: %s, %s" % ( self.string, tmp_set)
+                #print rule
+                #print "Creating new PDA: %s, %s" % ( self.string, tmp_set)
                 pda_instances.append(PDA(self.string, tmp_set))
             return pda_instances
         
@@ -35,8 +38,9 @@ class PDA:
                 self.string = self.string[len(self.current_stack[0]):len(self.string)+1]
                 self.current_stack.pop(0)
                 return [ self ] 
-            #elif self.current_stack[0] == '!':
-                
+            elif len(self.string) == 0 and self.current_stack[0] == '!':
+                self.current_stack.pop(0)
+                return [self]
             else:
                 return None
         
@@ -78,19 +82,19 @@ def CreatePDA(rules):
 
 def TestLine(parsed_rules, line):
     
-    print "Starting testline"
+    #print "Starting testline"
     working_set = []
     
     # Initialize the working sets
     for initial_rule in parsed_rules['S']:
         working_set.append(PDA(line[:], initial_rule[:]))
     
-    print working_set
+    #print working_set
     working_set_tmp = []
     
     while len(working_set) > 0:
         for pda in working_set:
-            print pda
+            #print pda
             pdas = pda.RunRule(parsed_rules)
             
             if pdas is not None:
@@ -117,9 +121,9 @@ def main():
     for line in sys.stdin.readlines():
         result = TestLine(parsed_rules, line.strip())
         if result:
-            print "Yes: %s" % line
+            print "Yes"
         else:
-            print "No: %s" % line
+            print "No"
     
 
 
