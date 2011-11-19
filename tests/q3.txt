@@ -1,0 +1,14 @@
+7
+S->XY
+X->AX
+X->!
+A->a
+Y->BY
+Y->!
+B->b
+a
+b
+aaaaaaaabbbbbbbbb
+!
+bbbbbbbbbbbbbbbbbbbbbb
+ababab
