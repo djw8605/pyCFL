@@ -11,6 +11,8 @@ class PDA:
         print "Staring runrule"
         print self.string
         print self.current_stack
+        if len(self.current_stack) == 0:
+            return None
         if variable_regex.search(self.current_stack[0]):
             print "Found variable: %s" % self.current_stack[0]
             pda_instances = []
