@@ -22,5 +22,8 @@ input. Each successive line will be treated as input that will be fed into the
 context free language parser.  
 
 
-This parser 
+This parser iteratively parses the string.  When it encounters a variable, it 
+creates a new PDA instance for each variable's rule, and continues parsing.
+When it encounters an situation it cannot resolve, such as a constant that 
+doesn't match the string, it will terminate the pda execution.
 
