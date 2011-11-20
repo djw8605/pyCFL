@@ -10,12 +10,19 @@ class PDA:
         self.current_stack = current_stack
         
     def RunRule(self, rules):
+        """
+        Function to run a set of rules given the current stack
+        and the currently unparsed string.
+        """
+        
         variable_regex = re.compile("[A-Z]")
         #print "Staring runrule"
         #print self.string
         #print self.current_stack
         if len(self.current_stack) == 0:
             return None
+        
+        # Check if the current stack is a variable
         if variable_regex.search(self.current_stack[0]):
             #print "Found variable: %s" % self.current_stack[0]
             pda_instances = []
@@ -34,6 +41,7 @@ class PDA:
             return pda_instances
         
         else:
+            # If the current stack is a constant, then make sure the string matches
             if self.string.find(self.current_stack[0]) == 0:
                 self.string = self.string[len(self.current_stack[0]):len(self.string)+1]
                 self.current_stack.pop(0)
@@ -45,6 +53,10 @@ class PDA:
                 return None
         
     def IsFound(self):
+        """
+        Check if this PDA has found a correct string.  
+        Which is true when the parsed string and current stack is empty.
+        """
         if len(self.string) == 0 and len(self.current_stack) == 0:
             return True
         else:
@@ -55,6 +67,10 @@ class PDA:
         
 
 def CreatePDA(rules):
+    """
+    Create the PDA given the rules above.
+    Really this just parses out the rules correctly.
+    """
     rule_regex = re.compile("([A-Z])->([\w|\!]*)")
     substition_regex = re.compile("([A-Z])")
     variables = {}
@@ -81,6 +97,10 @@ def CreatePDA(rules):
 
 
 def TestLine(parsed_rules, line):
+    """
+    This function runs the parsed rules on the line.
+    It performs a breadth first search of the PDA instances.
+    """
     
     #print "Starting testline"
     working_set = []
@@ -92,6 +112,7 @@ def TestLine(parsed_rules, line):
     #print working_set
     working_set_tmp = []
     
+    # Run the working sets until there are no valid ones left
     while len(working_set) > 0:
         for pda in working_set:
             #print pda
@@ -118,12 +139,17 @@ def main():
         
     parsed_rules = CreatePDA(rules)
     
+    # Read in stdin
     for line in sys.stdin.readlines():
-        result = TestLine(parsed_rules, line.strip())
-        if result:
-            print "Yes"
-        else:
+        try:
+            result = TestLine(parsed_rules, line.strip())
+            if result:
+                print "Yes"
+            else:
+                print "No"
+        except:
             print "No"
+       
     
 
 
